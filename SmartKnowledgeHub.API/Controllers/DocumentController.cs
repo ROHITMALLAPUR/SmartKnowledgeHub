@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using SmartKnowledgeHub.API.Data;
+using SmartKnowledgeHub.API.DTOs;
+using SmartKnowledgeHub.API.Models;
 
 namespace SmartKnowledgeHub.API.Controllers
 
@@ -24,6 +27,26 @@ namespace SmartKnowledgeHub.API.Controllers
             var documents = await _context.Documents.ToListAsync();
 
             return Ok(documents);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDocument([FromBody] DocumentCreateDto dto)
+        {
+            var document = new Document
+            {
+                Title = dto.Title,
+                FileName = dto.FileName,
+                Content = dto.Content,
+                UserId = dto.UploadedBy,
+                CreatedAt = DateTime.UtcNow,
+            };
+
+            _context.Documents.Add(document);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(document);
+
         }
 
     }
