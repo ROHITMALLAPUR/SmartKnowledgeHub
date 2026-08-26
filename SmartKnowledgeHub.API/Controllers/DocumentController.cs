@@ -49,6 +49,20 @@ namespace SmartKnowledgeHub.API.Controllers
 
         }
 
-    }
+        [HttpGet("{id}")]
 
+        public async Task<IActionResult> GetDocumentById(int id)
+        {
+            var document = await _context.Documents.FindAsync(id);
+
+            if (document == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(document);
+
+        }
+
+    }
 }
