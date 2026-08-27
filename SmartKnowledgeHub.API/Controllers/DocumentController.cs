@@ -29,6 +29,22 @@ namespace SmartKnowledgeHub.API.Controllers
             return Ok(documents);
         }
 
+
+        [HttpGet("{id}")]
+
+        public async Task<IActionResult> GetDocumentById(int id)
+        {
+            var document = await _context.Documents.FindAsync(id);
+
+            if (document == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(document);
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateDocument([FromBody] DocumentCreateDto dto)
         {
@@ -45,24 +61,13 @@ namespace SmartKnowledgeHub.API.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(document);
+            return CreatedAtAction
+                (nameof(GetDocumentById), 
+                new {id=document.Id},
+                document);
 
         }
 
-        [HttpGet("{id}")]
-
-        public async Task<IActionResult> GetDocumentById(int id)
-        {
-            var document = await _context.Documents.FindAsync(id);
-
-            if (document == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(document);
-
-        }
 
     }
 }
