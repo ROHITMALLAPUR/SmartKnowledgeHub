@@ -89,5 +89,23 @@ namespace SmartKnowledgeHub.API.Controllers
         }
 
 
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteDocument(int id)
+        {
+            var document = await _context.Documents.FindAsync(id);
+
+            if (document == null)
+            {
+                return NotFound();
+            }
+
+            _context.Documents.Remove(document);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
