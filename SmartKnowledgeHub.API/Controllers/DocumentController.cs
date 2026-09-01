@@ -26,7 +26,17 @@ namespace SmartKnowledgeHub.API.Controllers
 
             var documents = await _context.Documents.ToListAsync();
 
-            return Ok(documents);
+            var response = documents.Select(document => new DocumentResponseDto
+            {
+                Id = document.Id,
+                Title = document.Title,
+                FileName = document.FileName,
+                Summary = document.Summary,
+                CreatedAt = document.CreatedAt,
+                UpdatedAt = document.UpdatedAt
+            }).ToList();
+
+            return Ok(response);
         }
 
 
@@ -41,7 +51,17 @@ namespace SmartKnowledgeHub.API.Controllers
                 return NotFound();
             }
 
-            return Ok(document);
+            var response = new DocumentResponseDto
+            {
+                Id = document.Id,
+                Title = document.Title,
+                FileName = document.FileName,
+                Summary = document.Summary,
+                CreatedAt = document.CreatedAt,
+                UpdatedAt = document.UpdatedAt
+            };
+
+            return Ok(response);
 
         }
 
