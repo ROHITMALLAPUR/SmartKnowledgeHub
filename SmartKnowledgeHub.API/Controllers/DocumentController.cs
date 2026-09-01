@@ -62,10 +62,30 @@ namespace SmartKnowledgeHub.API.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction
-                (nameof(GetDocumentById), 
-                new {id=document.Id},
+                (nameof(GetDocumentById),
+                new { id = document.Id },
                 document);
 
+        }
+
+        [HttpPut("{id}")]
+
+        public async Task<IActionResult> UpdateDocument(int id, [FromBody] DocumentUpdateDto dto)
+        {
+            var document = await _context.Documents.FindAsync(id);
+
+            if (document == null)
+            {
+                return NotFound();
+            }
+
+            document.Title = dto.Title;
+            document.Content = dto.Content;
+            document.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(document);
         }
 
 
