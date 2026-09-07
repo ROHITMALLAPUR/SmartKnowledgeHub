@@ -81,10 +81,22 @@ namespace SmartKnowledgeHub.API.Controllers
 
             await _context.SaveChangesAsync();
 
+            var response = new DocumentResponseDto
+            {
+                Id = document.Id,
+                Title = document.Title,
+                FileName = document.FileName,
+                FilePath = document.FilePath,
+                Summary = document.Summary,
+                UploadedBy = document.UserId,
+                CreatedAt = document.CreatedAt,
+                UpdatedAt = document.UpdatedAt
+            };
+
             return CreatedAtAction
                 (nameof(GetDocumentById),
                 new { id = document.Id },
-                document);
+                response);
 
         }
 
@@ -105,7 +117,19 @@ namespace SmartKnowledgeHub.API.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(document);
+            var response = new DocumentResponseDto
+            {
+                Id = document.Id,
+                Title = document.Title,
+                FileName = document.FileName,
+                FilePath = document.FilePath,
+                Summary = document.Summary,
+                UploadedBy = document.UserId,
+                CreatedAt = document.CreatedAt,
+                UpdatedAt = document.UpdatedAt
+            };
+
+            return Ok(response);
         }
 
 
