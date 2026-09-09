@@ -128,7 +128,21 @@ namespace SmartKnowledgeHub.API.Services
 
         }
 
+        public async Task<bool> DeleteDocumentAsync(int id)
+        {
+            var document = await _context.Documents.FindAsync(id);
 
+            if (document == null)
+            {
+                return false;
+            }
+
+            _context.Documents.Remove(document);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
 
 
     }
