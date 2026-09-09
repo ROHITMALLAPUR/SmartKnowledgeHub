@@ -96,6 +96,39 @@ namespace SmartKnowledgeHub.API.Services
         }
 
 
+        public async Task<DocumentResponseDto?> UpdateDocumentAsync(int id, DocumentUpdateDto dto)
+        {
+            var document = await _context.Documents.FindAsync(id);
+
+            if (document == null)
+            {
+                return null;
+
+            }
+
+            document.Title = dto.Title;
+            document.Content = dto.Content;
+            document.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            var response = new DocumentResponseDto
+            {
+                Id = document.Id,
+                Title = document.Title,
+                FileName = document.FileName,
+                FilePath = document.FilePath,
+                Summary = document.Summary,
+                UploadedBy = document.UserId,
+                CreatedAt = document.CreatedAt,
+                UpdatedAt = document.UpdatedAt
+            };
+
+            return response;
+
+        }
+
+
 
 
     }

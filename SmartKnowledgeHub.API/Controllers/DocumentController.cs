@@ -60,38 +60,20 @@ namespace SmartKnowledgeHub.API.Controllers
 
         }
 
-        /*[HttpPut("{id}")]
+        [HttpPut("{id}")]
 
         public async Task<IActionResult> UpdateDocument(int id, [FromBody] DocumentUpdateDto dto)
         {
-            var document = await _context.Documents.FindAsync(id);
+            var document = await _documentService.UpdateDocumentAsync(id, dto);
 
-            if (document == null)
+            if(document == null)
             {
                 return NotFound();
             }
 
-            document.Title = dto.Title;
-            document.Content = dto.Content;
-            document.UpdatedAt = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-
-            var response = new DocumentResponseDto
-            {
-                Id = document.Id,
-                Title = document.Title,
-                FileName = document.FileName,
-                FilePath = document.FilePath,
-                Summary = document.Summary,
-                UploadedBy = document.UserId,
-                CreatedAt = document.CreatedAt,
-                UpdatedAt = document.UpdatedAt
-            };
-
-            return Ok(response);
+            return Ok(document);
         }
-*/
+
 
         /* [HttpDelete("{id}")]
 

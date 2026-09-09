@@ -12,11 +12,11 @@ namespace SmartKnowledgeHub.API.Services
 
         Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto);
 
-        /*Task<DocumentResponseDto?> UpdateDocumentAsync(
+        Task<DocumentResponseDto?> UpdateDocumentAsync(
             int id,
             DocumentUpdateDto dto);
 
-        Task<bool> DeleteDocumentAsync(int id);*/
+        Task<bool> DeleteDocumentAsync(int id);
 
     }
 }
