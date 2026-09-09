@@ -6,9 +6,9 @@ namespace SmartKnowledgeHub.API.Services
     {
         Task<List<DocumentResponseDto>> GetDocumentsAsync();
 
-        /*Task<DocumentResponseDto?> GetDocumentByIdAsync(int id);
+        Task<DocumentResponseDto?> GetDocumentByIdAsync(int id);
 
-        Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto);
+       /* Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto);
 
         Task<DocumentResponseDto?> UpdateDocumentAsync(
             int id,

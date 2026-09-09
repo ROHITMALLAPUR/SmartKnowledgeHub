@@ -30,32 +30,24 @@ namespace SmartKnowledgeHub.API.Controllers
             return Ok(documents);
         }
 
-/*
-        [HttpGet("{id}")]*/
 
-  /*      public async Task<IActionResult> GetDocumentById(int id)
+        [HttpGet("{id}")]
+
+        public async Task<IActionResult> GetDocumentById(int id)
         {
-            var document = await _context.Documents.FindAsync(id);
+            var document = await _documentService.GetDocumentByIdAsync(id);
 
-            if (document == null)
+            if (document == null) 
             {
-                return NotFound();
+                return NotFound(id);
             }
 
-            var response = new DocumentResponseDto
-            {
-                Id = document.Id,
-                Title = document.Title,
-                FileName = document.FileName,
-                Summary = document.Summary,
-                CreatedAt = document.CreatedAt,
-                UpdatedAt = document.UpdatedAt
-            };
 
-            return Ok(response);
+
+            return Ok(document);
 
         }
-
+/*
         [HttpPost]
         public async Task<IActionResult> CreateDocument([FromBody] DocumentCreateDto dto)
         {
@@ -90,8 +82,8 @@ namespace SmartKnowledgeHub.API.Controllers
                 response);
 
         }
-
-        [HttpPut("{id}")]
+*/
+        /*[HttpPut("{id}")]
 
         public async Task<IActionResult> UpdateDocument(int id, [FromBody] DocumentUpdateDto dto)
         {
@@ -122,9 +114,9 @@ namespace SmartKnowledgeHub.API.Controllers
 
             return Ok(response);
         }
+*/
 
-
-        [HttpDelete("{id}")]
+       /* [HttpDelete("{id}")]
 
         public async Task<IActionResult> DeleteDocument(int id)
         {

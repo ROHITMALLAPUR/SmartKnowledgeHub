@@ -37,5 +37,35 @@ namespace SmartKnowledgeHub.API.Services
         }
 
 
+        public async Task<DocumentResponseDto?> GetDocumentByIdAsync(int id)
+        {
+            var document = await _context.Documents.FindAsync(id);
+
+            if (document == null)
+            {
+                return null;
+            }
+
+
+            var response = new DocumentResponseDto
+            {
+
+                Id = document.Id,
+                Title = document.Title,
+                FileName = document.FileName,
+                FilePath = document.FilePath,
+                CreatedAt = document.CreatedAt,
+                UpdatedAt = document.UpdatedAt,
+                UploadedBy = document.UserId,
+                Summary = document.Summary
+            };
+
+            return response;
+
+        }
+
+
+
+
     }
 }
