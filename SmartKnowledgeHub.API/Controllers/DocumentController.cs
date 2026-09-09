@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.EntityFrameworkCore;
-using SmartKnowledgeHub.API.Data;
 using SmartKnowledgeHub.API.DTOs;
 using SmartKnowledgeHub.API.Models;
+using SmartKnowledgeHub.API.Services;
 
 namespace SmartKnowledgeHub.API.Controllers
 
@@ -12,11 +11,11 @@ namespace SmartKnowledgeHub.API.Controllers
     [Route("api/[Controller]")]
     public class DocumentController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IDocumentService _documentService;
 
-        public DocumentController(AppDbContext context)
+        public DocumentController(IDocumentService documentService)
         {
-            _context = context;
+            _documentService = documentService;
 
         }
 
@@ -24,25 +23,17 @@ namespace SmartKnowledgeHub.API.Controllers
         public async Task<IActionResult> GetDocuments()
         {
 
-            var documents = await _context.Documents.ToListAsync();
+            var documents = await _documentService.GetDocumentsAsync();
 
-            var response = documents.Select(document => new DocumentResponseDto
-            {
-                Id = document.Id,
-                Title = document.Title,
-                FileName = document.FileName,
-                Summary = document.Summary,
-                CreatedAt = document.CreatedAt,
-                UpdatedAt = document.UpdatedAt
-            }).ToList();
+          
 
-            return Ok(response);
+            return Ok(documents);
         }
 
+/*
+        [HttpGet("{id}")]*/
 
-        [HttpGet("{id}")]
-
-        public async Task<IActionResult> GetDocumentById(int id)
+  /*      public async Task<IActionResult> GetDocumentById(int id)
         {
             var document = await _context.Documents.FindAsync(id);
 
@@ -149,7 +140,7 @@ namespace SmartKnowledgeHub.API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
+        }*/
 
     }
 }
