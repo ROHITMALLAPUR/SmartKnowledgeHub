@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartKnowledgeHub.API.Data;
 using SmartKnowledgeHub.API.DTOs;
+using SmartKnowledgeHub.API.Models;
 
 namespace SmartKnowledgeHub.API.Services
 {
@@ -62,6 +63,36 @@ namespace SmartKnowledgeHub.API.Services
 
             return response;
 
+        }
+
+        public async Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto)
+        {
+            var document = new Document
+            {
+                Content = dto.Content,
+                FileName = dto.FileName,
+                Title = dto.Title,
+                UserId = dto.UploadedBy,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.Documents.Add(document);
+
+            await _context.SaveChangesAsync();
+
+            var response = new DocumentResponseDto
+            {
+                Id = document.Id,
+                Title = document.Title,
+                FileName = document.FileName,
+                FilePath = document.FilePath,
+                Summary = document.Summary,
+                UploadedBy = document.UserId,
+                CreatedAt = document.CreatedAt,
+                UpdatedAt = document.UpdatedAt
+            };
+
+            return response;
         }
 
 

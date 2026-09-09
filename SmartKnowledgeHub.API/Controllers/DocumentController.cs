@@ -47,42 +47,19 @@ namespace SmartKnowledgeHub.API.Controllers
             return Ok(document);
 
         }
-/*
+
         [HttpPost]
         public async Task<IActionResult> CreateDocument([FromBody] DocumentCreateDto dto)
         {
-            var document = new Document
-            {
-                Title = dto.Title,
-                FileName = dto.FileName,
-                Content = dto.Content,
-                UserId = dto.UploadedBy,
-                CreatedAt = DateTime.UtcNow,
-            };
-
-            _context.Documents.Add(document);
-
-            await _context.SaveChangesAsync();
-
-            var response = new DocumentResponseDto
-            {
-                Id = document.Id,
-                Title = document.Title,
-                FileName = document.FileName,
-                FilePath = document.FilePath,
-                Summary = document.Summary,
-                UploadedBy = document.UserId,
-                CreatedAt = document.CreatedAt,
-                UpdatedAt = document.UpdatedAt
-            };
+            var document= await _documentService.CreateDocumentAsync(dto);
 
             return CreatedAtAction
                 (nameof(GetDocumentById),
                 new { id = document.Id },
-                response);
+                document);
 
         }
-*/
+
         /*[HttpPut("{id}")]
 
         public async Task<IActionResult> UpdateDocument(int id, [FromBody] DocumentUpdateDto dto)
@@ -116,23 +93,23 @@ namespace SmartKnowledgeHub.API.Controllers
         }
 */
 
-       /* [HttpDelete("{id}")]
+        /* [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteDocument(int id)
-        {
-            var document = await _context.Documents.FindAsync(id);
+         public async Task<IActionResult> DeleteDocument(int id)
+         {
+             var document = await _context.Documents.FindAsync(id);
 
-            if (document == null)
-            {
-                return NotFound();
-            }
+             if (document == null)
+             {
+                 return NotFound();
+             }
 
-            _context.Documents.Remove(document);
+             _context.Documents.Remove(document);
 
-            await _context.SaveChangesAsync();
+             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }*/
+             return NoContent();
+         }*/
 
     }
 }

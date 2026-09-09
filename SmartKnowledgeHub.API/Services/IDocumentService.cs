@@ -1,6 +1,8 @@
 ﻿using SmartKnowledgeHub.API.DTOs;
 
+
 namespace SmartKnowledgeHub.API.Services
+
 {
     public interface IDocumentService
     {
@@ -8,9 +10,9 @@ namespace SmartKnowledgeHub.API.Services
 
         Task<DocumentResponseDto?> GetDocumentByIdAsync(int id);
 
-       /* Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto);
+        Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto);
 
-        Task<DocumentResponseDto?> UpdateDocumentAsync(
+        /*Task<DocumentResponseDto?> UpdateDocumentAsync(
             int id,
             DocumentUpdateDto dto);
 
