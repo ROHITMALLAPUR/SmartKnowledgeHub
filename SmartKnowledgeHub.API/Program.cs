@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SmartKnowledgeHub.API.Data;
+using SmartKnowledgeHub.API.Middleware;
 using SmartKnowledgeHub.API.Services;
 
 
@@ -25,9 +26,13 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 app.MapControllers();
 
