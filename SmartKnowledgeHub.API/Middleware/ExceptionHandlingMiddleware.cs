@@ -23,7 +23,17 @@ namespace SmartKnowledgeHub.API.Middleware
             {
                 await _next(context);
             }
-
+            catch (KeyNotFoundException ex)
+            {
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                var errorResponse = new ErrorResponseDto
+                {
+                    StatusCode = 404,
+                    Message = "Resource not found.",
+                };
+                await context.Response.WriteAsJsonAsync(errorResponse);
+            }
+         
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred.");

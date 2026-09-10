@@ -40,6 +40,8 @@ namespace SmartKnowledgeHub.API.Services
 
         public async Task<DocumentResponseDto?> GetDocumentByIdAsync(int id)
         {
+            throw new KeyNotFoundException("testing 404 error");
+
             var document = await _context.Documents.FindAsync(id);
 
             if (document == null)
