@@ -67,6 +67,9 @@ namespace SmartKnowledgeHub.API.Services
 
         public async Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto)
         {
+
+            
+
             var document = new Document
             {
                 Content = dto.Content,
@@ -79,6 +82,7 @@ namespace SmartKnowledgeHub.API.Services
             _context.Documents.Add(document);
 
             await _context.SaveChangesAsync();
+
 
             var response = new DocumentResponseDto
             {
@@ -110,7 +114,11 @@ namespace SmartKnowledgeHub.API.Services
             document.Content = dto.Content;
             document.UpdatedAt = DateTime.UtcNow;
 
+           
+
             await _context.SaveChangesAsync();
+
+           
 
             var response = new DocumentResponseDto
             {

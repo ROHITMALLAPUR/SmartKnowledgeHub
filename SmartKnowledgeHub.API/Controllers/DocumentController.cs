@@ -51,7 +51,10 @@ namespace SmartKnowledgeHub.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDocument([FromBody] DocumentCreateDto dto)
         {
-            var document= await _documentService.CreateDocumentAsync(dto);
+
+            
+
+            var document = await _documentService.CreateDocumentAsync(dto);
 
             return CreatedAtAction
                 (nameof(GetDocumentById),
