@@ -83,6 +83,7 @@ namespace SmartKnowledgeHub.API.Services
 
             await _context.SaveChangesAsync();
 
+            throw new Exception("Testing global exception handling");
 
             var response = new DocumentResponseDto
             {
