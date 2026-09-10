@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartKnowledgeHub.API.Data;
 using SmartKnowledgeHub.API.Middleware;
 using SmartKnowledgeHub.API.Services;
+using Scalar.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 
