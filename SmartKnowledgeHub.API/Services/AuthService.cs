@@ -37,5 +37,24 @@ namespace SmartKnowledgeHub.API.Services
 
             return true;
         }
+
+        public async Task<User?> LoginAsync(LoginDto dto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var passwordValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
+
+            if (!passwordValid)
+            {
+                return null;
+            }
+
+            return user;
+        }
     }
 }

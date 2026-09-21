@@ -27,5 +27,16 @@ namespace SmartKnowledgeHub.API.Controllers
             return Ok("User registered successfully.");
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            var user = await _authService.LoginAsync(dto);
+            if (user == null)
+            {
+                return Unauthorized("Invalid email or password.");
+            }
+            return Ok("Login Successful.");
+        }
+
     }
 }
