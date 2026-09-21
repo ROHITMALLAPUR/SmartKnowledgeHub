@@ -40,7 +40,7 @@ namespace SmartKnowledgeHub.API.Services
 
         public async Task<DocumentResponseDto?> GetDocumentByIdAsync(int id)
         {
-            throw new KeyNotFoundException("testing 404 error");
+           
 
             var document = await _context.Documents.FindAsync(id);
 
@@ -85,7 +85,7 @@ namespace SmartKnowledgeHub.API.Services
 
             await _context.SaveChangesAsync();
 
-            throw new Exception("Testing global exception handling");
+           
 
             var response = new DocumentResponseDto
             {
