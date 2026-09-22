@@ -8,10 +8,12 @@ namespace SmartKnowledgeHub.API.Services
     public class AuthService : IAuthService
     {
         private readonly AppDbContext _context;
+        private readonly IJwtService _jwtService;
 
-        public AuthService(AppDbContext context) 
-        { 
-          _context = context;
+        public AuthService(AppDbContext context, IJwtService jwtService)
+        {
+            _context = context;
+            _jwtService = jwtService;
         }
 
         public async Task<bool> RegisterAsync(RegisterDto dto)
@@ -38,7 +40,7 @@ namespace SmartKnowledgeHub.API.Services
             return true;
         }
 
-        public async Task<User?> LoginAsync(LoginDto dto)
+        public async Task<string?> LoginAsync(LoginDto dto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
@@ -54,7 +56,10 @@ namespace SmartKnowledgeHub.API.Services
                 return null;
             }
 
-            return user;
+            var token = _jwtService.GenerateToken(user.Id, user.Username, user.Email);
+           
+
+            return token;
         }
     }
 }

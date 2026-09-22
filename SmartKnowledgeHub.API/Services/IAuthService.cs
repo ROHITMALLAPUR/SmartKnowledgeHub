@@ -7,6 +7,6 @@ namespace SmartKnowledgeHub.API.Services
     {
         Task<bool> RegisterAsync(RegisterDto dto);
 
-        Task<User?> LoginAsync(LoginDto dto);
+        Task<string?> LoginAsync(LoginDto dto);
     }
 }

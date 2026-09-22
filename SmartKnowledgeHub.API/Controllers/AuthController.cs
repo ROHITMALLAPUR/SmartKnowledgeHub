@@ -30,12 +30,12 @@ namespace SmartKnowledgeHub.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var user = await _authService.LoginAsync(dto);
-            if (user == null)
+            var token = await _authService.LoginAsync(dto);
+            if (token == null)
             {
                 return Unauthorized("Invalid email or password.");
             }
-            return Ok("Login Successful.");
+            return Ok(new { Token = token });
         }
 
     }
