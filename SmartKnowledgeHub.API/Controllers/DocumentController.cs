@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Routing.Constraints;
 using SmartKnowledgeHub.API.DTOs;
 using SmartKnowledgeHub.API.Models;
 using SmartKnowledgeHub.API.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SmartKnowledgeHub.API.Controllers
 
 {
+    [Authorize]
     [ApiController]
     [Route("api/[Controller]")]
     public class DocumentController : ControllerBase
