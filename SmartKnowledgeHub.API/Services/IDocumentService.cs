@@ -14,7 +14,8 @@ namespace SmartKnowledgeHub.API.Services
 
         Task<DocumentResponseDto?> UpdateDocumentAsync(
             int id,
-            DocumentUpdateDto dto);
+            DocumentUpdateDto dto,
+            string userId);
 
         Task<bool> DeleteDocumentAsync(int id);
 

@@ -103,9 +103,11 @@ namespace SmartKnowledgeHub.API.Services
         }
 
 
-        public async Task<DocumentResponseDto?> UpdateDocumentAsync(int id, DocumentUpdateDto dto)
+        public async Task<DocumentResponseDto?> UpdateDocumentAsync(int id, DocumentUpdateDto dto, string userId)
         {
-            var document = await _context.Documents.FindAsync(id);
+
+
+            var document = await _context.Documents.FirstOrDefaultAsync(d => d.Id == id && d.UserId == userId);
 
             if (document == null)
             {

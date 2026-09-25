@@ -67,12 +67,12 @@ namespace SmartKnowledgeHub.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDocument([FromBody] DocumentCreateDto dto)
         {
-            Console.WriteLine("POST METHOD EXECUTED");
+            //Console.WriteLine("POST METHOD EXECUTED");
 
             var userId = User.FindFirst(
                 ClaimTypes.NameIdentifier)?.Value;
 
-            Console.WriteLine($"User ID: {userId}");
+            //Console.WriteLine($"User ID: {userId}");
 
             if (userId == null)
             {
@@ -94,9 +94,17 @@ namespace SmartKnowledgeHub.API.Controllers
 
         public async Task<IActionResult> UpdateDocument(int id, [FromBody] DocumentUpdateDto dto)
         {
-            var document = await _documentService.UpdateDocumentAsync(id, dto);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if(document == null)
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var document = await _documentService.UpdateDocumentAsync(id, dto, userId);
+
+
+            if (document == null)
             {
                 return NotFound();
             }
