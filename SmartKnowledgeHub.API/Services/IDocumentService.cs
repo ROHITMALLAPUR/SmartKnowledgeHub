@@ -17,7 +17,7 @@ namespace SmartKnowledgeHub.API.Services
             DocumentUpdateDto dto,
             string userId);
 
-        Task<bool> DeleteDocumentAsync(int id);
+        Task<bool> DeleteDocumentAsync(int id,string userId);
 
     }
 }

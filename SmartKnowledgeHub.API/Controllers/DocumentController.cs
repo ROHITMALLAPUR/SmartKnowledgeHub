@@ -117,7 +117,14 @@ namespace SmartKnowledgeHub.API.Controllers
 
         public async Task<IActionResult> DeleteDocument(int id)
         {
-            var document = await _documentService.DeleteDocumentAsync(id);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var document = await _documentService.DeleteDocumentAsync(id,userId);
 
             if (!document)
             {
