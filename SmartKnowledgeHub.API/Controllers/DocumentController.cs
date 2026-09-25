@@ -43,7 +43,13 @@ namespace SmartKnowledgeHub.API.Controllers
 
         public async Task<IActionResult> GetDocumentById(int id)
         {
-            var document = await _documentService.GetDocumentByIdAsync(id);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if(userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var document = await _documentService.GetDocumentByIdAsync(id, userId);
 
             if (document == null)
             {
