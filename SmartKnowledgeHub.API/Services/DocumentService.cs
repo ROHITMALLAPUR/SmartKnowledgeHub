@@ -16,10 +16,10 @@ namespace SmartKnowledgeHub.API.Services
 
         }
 
-        public async Task<List<DocumentResponseDto>> GetDocumentsAsync()
+        public async Task<List<DocumentResponseDto>> GetDocumentsAsync(string userId)
         {
 
-            var documents = await _context.Documents.ToListAsync();
+            var documents = await _context.Documents.Where(d => d.UserId == userId).ToListAsync();
 
             var response = documents.Select(document => new DocumentResponseDto
             {
@@ -67,7 +67,7 @@ namespace SmartKnowledgeHub.API.Services
 
         }
 
-        public async Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto)
+        public async Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto, string userId)
         {
 
             
@@ -77,7 +77,7 @@ namespace SmartKnowledgeHub.API.Services
                 Content = dto.Content,
                 FileName = dto.FileName,
                 Title = dto.Title,
-                UserId = dto.UploadedBy,
+                UserId = userId,
                 CreatedAt = DateTime.UtcNow
             };
 

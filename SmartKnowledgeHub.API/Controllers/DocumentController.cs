@@ -4,7 +4,8 @@ using SmartKnowledgeHub.API.DTOs;
 using SmartKnowledgeHub.API.Models;
 using SmartKnowledgeHub.API.Services;
 using Microsoft.AspNetCore.Authorization;
-
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 namespace SmartKnowledgeHub.API.Controllers
 
 {
@@ -24,10 +25,15 @@ namespace SmartKnowledgeHub.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDocuments()
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var documents = await _documentService.GetDocumentsAsync();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
 
-          
+            var documents = await _documentService.GetDocumentsAsync(userId);
+
 
             return Ok(documents);
         }
@@ -39,7 +45,7 @@ namespace SmartKnowledgeHub.API.Controllers
         {
             var document = await _documentService.GetDocumentByIdAsync(id);
 
-            if (document == null) 
+            if (document == null)
             {
                 return NotFound(id);
             }
@@ -50,13 +56,26 @@ namespace SmartKnowledgeHub.API.Controllers
 
         }
 
+        [AllowAnonymous]
+
         [HttpPost]
         public async Task<IActionResult> CreateDocument([FromBody] DocumentCreateDto dto)
         {
+            Console.WriteLine("POST METHOD EXECUTED");
 
-            
+            var userId = User.FindFirst(
+                ClaimTypes.NameIdentifier)?.Value;
 
-            var document = await _documentService.CreateDocumentAsync(dto);
+            Console.WriteLine($"User ID: {userId}");
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+
+
+            var document = await _documentService.CreateDocumentAsync(dto, userId);
 
             return CreatedAtAction
                 (nameof(GetDocumentById),

@@ -15,9 +15,5 @@ namespace SmartKnowledgeHub.API.DTOs
 
         public string? Content { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        [MinLength(2)]
-        public string UploadedBy { get; set; } = string.Empty;
     }
 }

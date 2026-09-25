@@ -6,11 +6,11 @@ namespace SmartKnowledgeHub.API.Services
 {
     public interface IDocumentService
     {
-        Task<List<DocumentResponseDto>> GetDocumentsAsync();
+        Task<List<DocumentResponseDto>> GetDocumentsAsync(string userId);
 
         Task<DocumentResponseDto?> GetDocumentByIdAsync(int id);
 
-        Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto);
+        Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto, string userId);
 
         Task<DocumentResponseDto?> UpdateDocumentAsync(
             int id,
