@@ -9,10 +9,12 @@ namespace SmartKnowledgeHub.API.Services
     {
 
         private readonly AppDbContext _context;
-        public DocumentService(AppDbContext context)
+        private readonly IWebHostEnvironment _environment;
+        public DocumentService(AppDbContext context, IWebHostEnvironment environment)
         {
 
             _context = context;
+            _environment = environment;
 
         }
 
@@ -70,12 +72,23 @@ namespace SmartKnowledgeHub.API.Services
         public async Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto, string userId)
         {
 
-            
+            var uploadsFolder = Path.Combine(_environment.ContentRootPath, "uploads");
 
+            Directory.CreateDirectory(uploadsFolder);
+
+            var extension = Path.GetExtension(dto.File.FileName);
+
+            var storedFileName = $"{Guid.NewGuid()}{extension}";
+
+            var physicalFilePath = Path.Combine(uploadsFolder, storedFileName);
+
+            using var stream = new FileStream(physicalFilePath, FileMode.Create);
+
+            await dto.File.CopyToAsync(stream);
             var document = new Document
             {
-                Content = dto.Content,
-                FileName = dto.FileName,
+                FileName=dto.File.FileName,
+                FilePath = Path.Combine("uploads", storedFileName),
                 Title = dto.Title,
                 UserId = userId,
                 CreatedAt = DateTime.UtcNow

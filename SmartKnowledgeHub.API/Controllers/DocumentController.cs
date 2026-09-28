@@ -65,7 +65,7 @@ namespace SmartKnowledgeHub.API.Controllers
         [AllowAnonymous]
 
         [HttpPost]
-        public async Task<IActionResult> CreateDocument([FromBody] DocumentCreateDto dto)
+        public async Task<IActionResult> CreateDocument([FromForm] DocumentCreateDto dto)
         {
             //Console.WriteLine("POST METHOD EXECUTED");
 
