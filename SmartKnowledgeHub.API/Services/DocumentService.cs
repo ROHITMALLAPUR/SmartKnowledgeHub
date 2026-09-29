@@ -71,6 +71,26 @@ namespace SmartKnowledgeHub.API.Services
 
         public async Task<DocumentResponseDto> CreateDocumentAsync(DocumentCreateDto dto, string userId)
         {
+            if (dto.File == null || dto.File.Length == 0)
+            {
+                throw new ArgumentException("File is required.");
+            }
+
+            const long maxFileSize = 10 * 1024 * 1024; // 10 MB
+
+            if (dto.File.Length > maxFileSize)
+            {
+                throw new ArgumentException("File size exceeds the maximum limit of 10 MB.");
+            }
+
+            var allowedExtensions = new[] { ".pdf", ".docx", ".txt" };
+
+            var extention = Path.GetExtension(dto.File.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(extention))
+            {
+                throw new ArgumentException("Invalid file type. Only PDF, DOCX, and TXT files are allowed.");
+            }
 
             var uploadsFolder = Path.Combine(_environment.ContentRootPath, "uploads");
 
@@ -129,7 +149,6 @@ namespace SmartKnowledgeHub.API.Services
             }
 
             document.Title = dto.Title;
-            document.Content = dto.Content;
             document.UpdatedAt = DateTime.UtcNow;
 
            
