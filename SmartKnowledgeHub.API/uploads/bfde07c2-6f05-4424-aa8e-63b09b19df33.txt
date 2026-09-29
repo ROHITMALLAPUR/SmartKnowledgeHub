@@ -1,0 +1,17 @@
+Harshit Trehan:-
+Step 1 :- Java basic(syntax, oops, libraries  --> 10 beginner videos You tube)+ basic coding
+step 2:- Java Advance(multi threading, concurrency, (dec)API, JDBC, Microservices)(arpit bhayani and code with harry)+DSA daily
+Step 3(Jan):-Tools(spring boot, My SQL)(engineering digest YT channel and apna school for sql)
+step 4(Feb):- Industry level application
+
+
+For DSA(Love bubber YT video(&leet code) + code with harry notes)
+
+
+Code with harry:-
+Source Code + Notes - https://codewithharry.com/notes
+Ultimate Java Cheatsheet: https://codewithharry.com/videos/java...
+
+Moring:-DSA
+office:-java course
+night:-basic coding

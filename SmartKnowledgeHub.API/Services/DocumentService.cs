@@ -182,7 +182,15 @@ namespace SmartKnowledgeHub.API.Services
                 return false;
             }
 
+            var filePath = Path.Combine(_environment.ContentRootPath, document.FilePath);
+
+
             _context.Documents.Remove(document);
+
+            if(File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
 
             await _context.SaveChangesAsync();
 
