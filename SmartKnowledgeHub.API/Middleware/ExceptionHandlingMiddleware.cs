@@ -23,6 +23,22 @@ namespace SmartKnowledgeHub.API.Middleware
             {
                 await _next(context);
             }
+            catch (ArgumentException ex)
+            {
+                _logger.LogWarning(ex, "validation error occured");
+
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+                context.Response.ContentType = "application/json";
+
+                var errorResponse = new ErrorResponseDto
+                {
+                    StatusCode = 400,
+                    Message = ex.Message,
+                };
+
+                await context.Response.WriteAsJsonAsync(errorResponse);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred.");
