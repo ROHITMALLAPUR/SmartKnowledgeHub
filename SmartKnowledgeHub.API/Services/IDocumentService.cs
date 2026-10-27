@@ -1,4 +1,5 @@
 ﻿using SmartKnowledgeHub.API.DTOs;
+using SmartKnowledgeHub.API.Models;
 
 
 namespace SmartKnowledgeHub.API.Services
@@ -17,7 +18,9 @@ namespace SmartKnowledgeHub.API.Services
             DocumentUpdateDto dto,
             string userId);
 
-        Task<bool> DeleteDocumentAsync(int id,string userId);
+        Task<bool> DeleteDocumentAsync(int id, string userId);
+
+        Task<Document?> GetDocumentFileAsync(int id, string userId);
 
     }
 }

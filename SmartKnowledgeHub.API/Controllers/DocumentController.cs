@@ -44,7 +44,7 @@ namespace SmartKnowledgeHub.API.Controllers
         public async Task<IActionResult> GetDocumentById(int id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if(userId == null)
+            if (userId == null)
             {
                 return Unauthorized();
             }
@@ -124,7 +124,7 @@ namespace SmartKnowledgeHub.API.Controllers
                 return Unauthorized();
             }
 
-            var document = await _documentService.DeleteDocumentAsync(id,userId);
+            var document = await _documentService.DeleteDocumentAsync(id, userId);
 
             if (!document)
             {
@@ -132,6 +132,58 @@ namespace SmartKnowledgeHub.API.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpGet("{id}/file")]
+        public async Task<IActionResult> GetDocumentFile(int id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var document = await _documentService.GetDocumentFileAsync(id, userId);
+
+            if (document == null || string.IsNullOrWhiteSpace(document.FilePath))
+            {
+                return NotFound("Document or file not found.");
+            }
+
+            var filePath = Path.GetFullPath(
+                Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    document.FilePath));
+
+            var uploadsFolder = Path.GetFullPath(
+                Path.Combine(Directory.GetCurrentDirectory(), "uploads"));
+
+            // Ensure the resolved file stays inside the uploads folder.
+            if (!filePath.StartsWith(
+                    uploadsFolder + Path.DirectorySeparatorChar,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Invalid file path.");
+            }
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("Physical file not found.");
+            }
+
+            var contentType = Path.GetExtension(document.FileName).ToLowerInvariant() switch
+            {
+                ".pdf" => "application/pdf",
+                ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ".txt" => "text/plain",
+                _ => "application/octet-stream"
+            };
+
+            return PhysicalFile(
+                filePath,
+                contentType,
+                enableRangeProcessing: true);
         }
 
     }

@@ -42,9 +42,9 @@ namespace SmartKnowledgeHub.API.Services
 
         public async Task<DocumentResponseDto?> GetDocumentByIdAsync(int id, string userId)
         {
-           
 
-            var document = await _context.Documents.FirstOrDefaultAsync(d=>d.Id == id && d.UserId == userId);
+
+            var document = await _context.Documents.FirstOrDefaultAsync(d => d.Id == id && d.UserId == userId);
 
             if (document == null)
             {
@@ -107,7 +107,7 @@ namespace SmartKnowledgeHub.API.Services
             await dto.File.CopyToAsync(stream);
             var document = new Document
             {
-                FileName=dto.File.FileName,
+                FileName = dto.File.FileName,
                 FilePath = Path.Combine("uploads", storedFileName),
                 Title = dto.Title,
                 UserId = userId,
@@ -118,7 +118,7 @@ namespace SmartKnowledgeHub.API.Services
 
             await _context.SaveChangesAsync();
 
-           
+
 
             var response = new DocumentResponseDto
             {
@@ -151,11 +151,11 @@ namespace SmartKnowledgeHub.API.Services
             document.Title = dto.Title;
             document.UpdatedAt = DateTime.UtcNow;
 
-           
+
 
             await _context.SaveChangesAsync();
 
-           
+
 
             var response = new DocumentResponseDto
             {
@@ -175,26 +175,39 @@ namespace SmartKnowledgeHub.API.Services
 
         public async Task<bool> DeleteDocumentAsync(int id, string userId)
         {
-            var document = await _context.Documents.FirstOrDefaultAsync(d => d.Id == id && d.UserId == userId);
+            var document = await _context.Documents
+                .FirstOrDefaultAsync(d => d.Id == id && d.UserId == userId);
 
             if (document == null)
             {
                 return false;
             }
 
-            var filePath = Path.Combine(_environment.ContentRootPath, document.FilePath);
-
-
-            _context.Documents.Remove(document);
-
-            if(File.Exists(filePath))
+            // Delete the physical file only if a file path exists
+            if (!string.IsNullOrEmpty(document.FilePath))
             {
-                File.Delete(filePath);
+                var filePath = Path.Combine(
+                    _environment.ContentRootPath,
+                    document.FilePath);
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
             }
+
+            // Delete the database record
+            _context.Documents.Remove(document);
 
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<Document?> GetDocumentFileAsync(int id, string userId)
+        {
+            return await _context.Documents
+                .FirstOrDefaultAsync(d => d.Id == id && d.UserId == userId);
         }
 
 
